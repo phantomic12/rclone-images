@@ -1,0 +1,41 @@
+name: Rebuild Repo
+on: 
+  push:
+  schedule:
+    - cron: "0 0 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  genmatrix:
+    runs-on: ubuntu-latest
+    outputs:
+      build_matrix: ${{ steps.generate_build_matrix.outputs.build_matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Gen
+        id: gen
+        run: |
+          changed_folders=$(git diff --name-only HEAD^ | grep -oP 'repo\/(.+)\/' | sort -u )
+          build_matrix=$(echo "$(ls docker)" | jq -R . | jq -s . | jq -c .)
+          echo "::set-output name=build_matrix::$build_matrix"       
+  build:
+    needs: genmatrix
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.genmatrix.outputs.build_matrix) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+    
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ghcr.io/phantomic12/rc:${{ matrix.variant }}
+          file: ${{ matrix.variant }}
