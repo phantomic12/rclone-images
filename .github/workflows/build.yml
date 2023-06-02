@@ -15,7 +15,6 @@ jobs:
       - name: Gen
         id: gen
         run: |
-          changed_folders=$(git diff --name-only HEAD^ | grep -oP 'repo\/(.+)\/' | sort -u )
           build_matrix=$(echo "$(ls docker)" | jq -R . | jq -s . | jq -c .)
           echo "::set-output name=build_matrix::$build_matrix"       
   build:
