@@ -1,5 +1,5 @@
 FROM postgres
 
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update && apt-get -y upgrade && apt install unzip
 
 RUN curl https://rclone.org/install.sh | bash
