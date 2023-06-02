@@ -1,4 +1,4 @@
-name: Rebuild Repo
+name: Build images
 on: 
   push:
   schedule:
