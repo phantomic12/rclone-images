@@ -1,0 +1,5 @@
+FROM nextcloud
+
+RUN apt-get update && apt-get -y upgrade
+
+RUN curl https://rclone.org/install.sh | bash
