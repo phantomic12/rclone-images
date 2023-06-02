@@ -5,23 +5,14 @@ on:
     - cron: "0 0 */3 * *"
   workflow_dispatch:
 
-jobs:
-  genmatrix:
-    runs-on: ubuntu-latest
-    outputs:
-      build_matrix: ${{ steps.genmt.outputs.build_matrix }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Gen
-        id: genmt
-        run: |
-          build_matrix=$(echo "$(ls build)" | jq -R . | jq -s . | jq -c .)
-          echo "::set-output name=build_matrix::$build_matrix"       
+jobs:      
   build:
-    needs: genmatrix
     strategy:
       matrix:
-        app: ${{ (needs.genmatrix.outputs.build_matrix) }}
+        app: 
+          - jellyfin
+          - nextcloud
+          - postgres
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
