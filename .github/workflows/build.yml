@@ -9,14 +9,14 @@ jobs:
   genmatrix:
     runs-on: ubuntu-latest
     outputs:
-      build_matrix: ${{ steps.generate_build_matrix.outputs.build_matrix }}
+      build_matrix: ${{ steps.genmt.outputs.build_matrix }}
     steps:
       - uses: actions/checkout@v3
       - name: Gen
-        id: gen
+        id: genmt
         run: echo "::set-output name=build_matrix::$(ls docker)"       
   build:
-    needs: gen
+    needs: genmatrix
     strategy:
       matrix:
         app: ${{ fromJson(needs.genmatrix.outputs.build_matrix) }}
