@@ -15,8 +15,7 @@ jobs:
       - name: Gen
         id: gen
         run: |
-          build_matrix=$(echo "$(ls docker)" | jq -R . | jq -s . | jq -c .)
-          echo "::set-output name=build_matrix::$build_matrix"       
+          echo "::set-output name=build_matrix::$(ls docker)"       
   build:
     needs: genmatrix
     strategy:
@@ -37,4 +36,4 @@ jobs:
         with:
           push: true
           tags: ghcr.io/phantomic12/rc:${{ matrix.variant }}
-          file: ${{ matrix.variant }}
+          file: docker/${{ matrix.variant }}
