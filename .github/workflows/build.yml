@@ -19,7 +19,7 @@ jobs:
     needs: genmatrix
     strategy:
       matrix:
-        app: ${{ fromJson(needs.genmatrix.outputs.build_matrix) }}
+        app: ${{ (needs.genmatrix.outputs.build_matrix) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,4 +35,4 @@ jobs:
         with:
           push: true
           tags: ghcr.io/phantomic12/rc:${{ matrix.variant }}
-          file: docker/${{ matrix.variant }}
+          file: build/${{ matrix.variant }}
