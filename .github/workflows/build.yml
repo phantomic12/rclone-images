@@ -13,6 +13,7 @@ jobs:
           - jellyfin
           - nextcloud
           - postgres
+          - tdarr
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
