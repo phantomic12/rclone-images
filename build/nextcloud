@@ -1,5 +1,5 @@
 FROM nextcloud
 
-RUN apt-get update && apt-get -y upgrade && apt install unzip
+RUN apt-get update && apt-get -y upgrade && apt install unzip software-properties-common && add-apt-repository universe && apt-get update && apt install rclone 
 
-RUN curl https://rclone.org/install.sh | bash
+
