@@ -1,5 +1,5 @@
 FROM nextcloud
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install rclone 
+RUN apt-get update && apt-get -y upgrade && apt-get -y install rclone && mkdir /data
 
 
